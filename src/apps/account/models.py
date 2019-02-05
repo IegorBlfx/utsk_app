@@ -1,35 +1,19 @@
 from django.db import models
+from apps import model_choises as mch
 
-class TypeOfProduct(models.Model):
-    product_type = models.TextField(max_length=20 ,unique=True, null=True, blank=False)
-
-    def __str__(self):
-        return self.product_type
-
-class Steel(models.Model):
-    name = models.TextField(max_length=15 ,blank=False, null=False)
-
-    def __str__(self):
-        return self.name
 
 class Standard(models.Model):
-    name = models.TextField(max_length=15, blank=False, null=False)
-    number = models.TextField(max_length=15, blank=False, null=False)
+    title = models.SmallIntegerField(choices=mch.STANDARDS)
+    steel = models.SmallIntegerField(choices=mch.STEEL)
     comment = models.TextField(max_length=15, blank=True, null=True)
-    product_type = models.ForeignKey(TypeOfProduct, null=True, blank=True, on_delete=models.SET_NULL, related_name='standards')
-    steel = models.ManyToManyField(Steel)
-
-    def __str__(self):
-        return self.name
-
-class MechanicalProperties(models.Model):
     strength_yield = models.SmallIntegerField()
     strength_tensile = models.SmallIntegerField()
     extending = models.FloatField()
-    standard = models.ForeignKey(Standard, null=True, on_delete=models.SET_NULL, related_name='properties')
 
-    def __str__(self):
-        return self.standard
+    #def __str__(self):
+        #if self.title:
+            #return f'{self.title} {self.steel}'
+
 
 class Product(models.Model):
     # In Product model shs means structural hollow sections, and rp means round pipe
@@ -37,23 +21,23 @@ class Product(models.Model):
     height_shs = models.FloatField(null=True, blank=True)
     diameter_pipe = models.FloatField(null=True, blank=True)
     wall = models.FloatField(null=False, blank=False)
-    product_type = models.ForeignKey(TypeOfProduct, null=True, on_delete=models.SET_NULL, related_name='products')
 
-#class Length(models.Model):
-    #length = models.FloatField(null=True, blank=True)
 
-#class BaseUnits(models.Model):
-    #base_units = models.TextField(max_length=10)
+
+    def __str__(self):
+        if self.diameter_pipe is None:
+            return f'{self.width_shs}x{self.height_shs}x{self.wall}'
+        return f'{self.diameter_pipe}x{self.wall}'
+
 
 class PurchaseInvoice(models.Model):
     act_date = models.DateField()
     act_number = models.SmallIntegerField()
     counterparty = models.TextField() # FK to Counterparties
-    standard = models.ForeignKey(Standard, null=True, blank=True, on_delete=models.SET_NULL)
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
-    steel = models.ForeignKey(Steel, null=True, blank=True, on_delete=models.SET_NULL)
-    length_from = models.FloatField()#ForeignKey(Length, null=True, blank=True, on_delete=models.SET_NULL) TODO choises
-    length_to = models.FloatField() #ForeignKey(Length, null=True, blank=True, on_delete=models.SET_NULL)  TODO choises
+    standard = models.ForeignKey(Standard, blank=True, null=True, on_delete=models.SET_NULL)
+    length_from = models.PositiveSmallIntegerField(choices=mch.LENGTH)
+    length_to = models.PositiveSmallIntegerField(choices=mch.LENGTH)
     wall_thickness_max = models.FloatField()
     wall_thickness_min = models.FloatField()
     radius_rounding_max = models.FloatField()
@@ -65,8 +49,8 @@ class PurchaseInvoice(models.Model):
     price_in_nds = models.FloatField() # must be in document
     price_out = models.FloatField()
     price_out_NDS = models. FloatField()
-    base_units_weight = models.TextField()#ForeignKey(BaseUnits, null=True, blank=True, on_delete=models.SET_NULL) TODO choises
-    base_units_length = models.TextField()#ForeignKey(BaseUnits, null=True, blank=True, on_delete=models.SET_NULL) TODO choises
+    base_units_weight = models.PositiveSmallIntegerField(choices=mch.UNITS)
+    base_units_length = models.PositiveSmallIntegerField(choices=mch.UNITS)
     weight_acc = models.FloatField()
     weight_fact = models.FloatField()
     stock = models.TextField() # FK to stocks
@@ -75,6 +59,5 @@ class PurchaseInvoice(models.Model):
     created_by = models.TextField() # FK to staff_users
     create_date = models.DateField()
 
-
-
+# TODO redef SAVE for this form! Length to must be => length from
 
