@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.account.models import TypeOfProduct, Steel, Standard, MechanicalProperties, Product
+from apps.account.models import TypeOfProduct, Steel, Standard, MechanicalProperties, Product, PurchaseInvoice
 
 class ProductAdmin(admin.ModelAdmin):
     pass
@@ -19,4 +19,8 @@ class StandardAdmin(admin.ModelAdmin):
 
 @admin.register(MechanicalProperties)
 class MechanicalPropertiesAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(PurchaseInvoice)
+class PurchaseInvoiceAdmin(admin.ModelAdmin):
     pass

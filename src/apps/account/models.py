@@ -52,8 +52,8 @@ class PurchaseInvoice(models.Model):
     standard = models.ForeignKey(Standard, null=True, blank=True, on_delete=models.SET_NULL)
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
     steel = models.ForeignKey(Steel, null=True, blank=True, on_delete=models.SET_NULL)
-    length_from = models.FloatField()#ForeignKey(Length, null=True, blank=True, on_delete=models.SET_NULL)
-    length_to = models.FloatField() #ForeignKey(Length, null=True, blank=True, on_delete=models.SET_NULL)
+    length_from = models.FloatField()#ForeignKey(Length, null=True, blank=True, on_delete=models.SET_NULL) TODO choises
+    length_to = models.FloatField() #ForeignKey(Length, null=True, blank=True, on_delete=models.SET_NULL)  TODO choises
     wall_thickness_max = models.FloatField()
     wall_thickness_min = models.FloatField()
     radius_rounding_max = models.FloatField()
@@ -65,8 +65,8 @@ class PurchaseInvoice(models.Model):
     price_in_nds = models.FloatField() # must be in document
     price_out = models.FloatField()
     price_out_NDS = models. FloatField()
-    base_units_weight = models.TextField()#ForeignKey(BaseUnits, null=True, blank=True, on_delete=models.SET_NULL)
-    base_units_length = models.TextField()#ForeignKey(BaseUnits, null=True, blank=True, on_delete=models.SET_NULL)
+    base_units_weight = models.TextField()#ForeignKey(BaseUnits, null=True, blank=True, on_delete=models.SET_NULL) TODO choises
+    base_units_length = models.TextField()#ForeignKey(BaseUnits, null=True, blank=True, on_delete=models.SET_NULL) TODO choises
     weight_acc = models.FloatField()
     weight_fact = models.FloatField()
     stock = models.TextField() # FK to stocks
