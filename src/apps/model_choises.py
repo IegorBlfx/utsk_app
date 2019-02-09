@@ -65,3 +65,16 @@ STEEL = (
     (st35 , 'steel 35'),
     (st09G2S,'steel 09G2S'),
 )
+
+####################################################
+TOV = 1
+FOP = 2
+PP = 3
+ZAT = 4
+
+OWNERSHIP = (
+    (TOV,'TOV'),
+    (FOP, 'FOP'),
+    (PP, 'PP'),
+    (ZAT, 'ZAT')
+)
