@@ -47,7 +47,13 @@ class Contract(models.Model):
     def __str__(self):
         return f'{self.get_contract_type_display} contract #{self.contract_number}'
 
-
+class Document(models.Model):
+    title = models.CharField(max_length=15)
+    doc_date = models.DateField()
+    doc_number = models.CharField(max_length=15)
+    contract = models.ForeignKey(Contract, null=True, blank=True, on_delete=models.SET_NULL)
+    created_by = models.CharField(max_length=15)
+    created_date = models.DateField()
 
 class Standard(models.Model):
     title = models.SmallIntegerField(choices=mch.STANDARDS)
@@ -78,9 +84,7 @@ class Product(models.Model):
 
 
 class PurchaseInvoice(models.Model):
-    act_date = models.DateField()
-    act_number = models.SmallIntegerField()
-    from_counterparty = models.ForeignKey(Counterparty, null=True, blank=True, on_delete=models.SET_NULL)
+    document = models.ForeignKey(Document, null=True, blank=True, on_delete=models.SET_NULL)
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.SET_NULL)
     standard = models.ForeignKey(Standard, blank=True, null=True, on_delete=models.SET_NULL)
     length_from = models.PositiveSmallIntegerField(choices=mch.LENGTH)
@@ -102,9 +106,7 @@ class PurchaseInvoice(models.Model):
     weight_fact = models.FloatField(null=True, blank=True)
     stock = models.TextField(null=True, blank=True) # TODO FK to stocks, def function GetStock
     place = models.ForeignKey(Place, null=True, blank=True, on_delete=models.SET_NULL)
-    contract = models.TextField(null=True, blank=True) #FK to contracts
-    created_by = models.TextField(null=True, blank=True) # FK to staff_users
-    create_date = models.DateField(null=True, blank=True)
+
 
 # TODO redef SAVE for this form! Length to must be => length from
 

@@ -23,6 +23,13 @@ class LocationAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Counterparty)
-class Counterparty(admin.ModelAdmin):
+class CounterpartyAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Document)
+class DocumentAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Contract)
+class ContractAdmin(admin.ModelAdmin):
+    pass
