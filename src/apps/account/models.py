@@ -8,11 +8,16 @@ class Location(models.Model):
     city = models.CharField(max_length=50)
     street = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f'{self.country} ,{self.region} ,{self.city} ,{self.street}'
+
 class Place(models.Model):
     stock = models.CharField(max_length=50)
     playground = models.CharField(max_length=50)
     place = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f'{self.place} ,{self.playground} ,{self.stock}'
 
 class Counterparty(models.Model):
     ownership_type = models.SmallIntegerField(choices=mch.OWNERSHIP)
@@ -24,6 +29,23 @@ class Counterparty(models.Model):
     adress_by_fact = models.CharField(max_length=200)
     phone_number = models.IntegerField()
     create_by = models.CharField(max_length=50) # TODO create user_is_staff class
+
+
+class Contract(models.Model):
+    created_date = models.DateField()
+    contract_type = models.SmallIntegerField(choices=mch.CONTRACT)
+    contract_number = models.CharField(max_length=15)
+    counterparty = models.ForeignKey(Counterparty,null=True,blank=True, on_delete=models.SET_NULL)
+    our_company = models.SmallIntegerField(choices=mch.COMPANY) # TODO take it from second DB
+    type_nds = models.SmallIntegerField(choices=mch.NDS) # TODO take it from second DB
+    contract_currency = models.SmallIntegerField(choices=mch.CURRENCY)
+    contract_from = models.DateField()
+    contract_to = models.DateField()
+    contract_amount = models.FloatField()
+    created_by = models.CharField(max_length=15) # TODO user_is_staff
+
+    def __str__(self):
+        return f'{self.get_contract_type_display} contract #{self.contract_number}'
 
 
 
