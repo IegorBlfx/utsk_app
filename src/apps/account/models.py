@@ -15,6 +15,7 @@ class Place(models.Model):
     stock = models.CharField(max_length=50)
     playground = models.CharField(max_length=50)
     place = models.CharField(max_length=50)
+    commentary = models.CharField(max_length=50) # TODO do we need it?
 
     def __str__(self):
         return f'{self.place} ,{self.playground} ,{self.stock}'
@@ -43,6 +44,11 @@ class Contract(models.Model):
     contract_to = models.DateField()
     contract_amount = models.FloatField()
     created_by = models.CharField(max_length=15) # TODO user_is_staff
+    commentary = models.CharField(max_length=14) # TODO do we need it?
+    bank_mfo = models.IntegerField() # TODO choise
+    bank_name = models.CharField(max_length=30)# TODO choises
+    payment_account = models.IntegerField()
+
 
     def __str__(self):
         return f'{self.get_contract_type_display} contract #{self.contract_number}'
@@ -54,6 +60,14 @@ class Document(models.Model):
     contract = models.ForeignKey(Contract, null=True, blank=True, on_delete=models.SET_NULL)
     created_by = models.CharField(max_length=15)
     created_date = models.DateField()
+    paid = models.BooleanField()
+    commentary = models.CharField(max_length=30)
+    do_smth = models.BooleanField()
+    delete = models.BooleanField() #TODO redef DELETE Foo
+
+    def __str__(self):
+        return self.title
+
 
 class Standard(models.Model):
     title = models.SmallIntegerField(choices=mch.STANDARDS)
@@ -100,17 +114,34 @@ class PurchaseInvoice(models.Model):
     price_in_nds = models.FloatField(null=True, blank=True) # must be in document
     price_out = models.FloatField(null=True, blank=True)
     price_out_NDS = models. FloatField(null=True, blank=True)
-    base_units_weight = models.PositiveSmallIntegerField(choices=mch.UNITS)
-    base_units_length = models.PositiveSmallIntegerField(choices=mch.UNITS)
     weight_acc = models.FloatField(null=True, blank=True)
     weight_fact = models.FloatField(null=True, blank=True)
-    stock = models.TextField(null=True, blank=True) # TODO FK to stocks, def function GetStock
     place = models.ForeignKey(Place, null=True, blank=True, on_delete=models.SET_NULL)
 
 
 # TODO redef SAVE for this form! Length to must be => length from
 
+class Invoice(models.Model):
+    document = models.ForeignKey(Document, blank=True, null=True, on_delete=models.SET_NULL)
+    comment_to_product = models.CharField(max_length=30)
+    product = models.ForeignKey(PurchaseInvoice, blank=True, null=True, on_delete=models.SET_NULL)
+    weigth_product = models.FloatField()
 
+#todo def function to take price in form
 
+class OtherData(models.Model):   #Additional data to document
+    document = models.ForeignKey(Document, blank=True, null=True, on_delete=models.SET_NULL)
+    transport_type = models.SmallIntegerField(choices=mch.TRANSPORT_TYPE)
+    transport_mark = models.SmallIntegerField(choices=mch.TRANSPORT_MARK)
+    transport_number = models.CharField(max_length=8)
+    trailer_number = models.CharField(max_length=8)
+    driver = models.CharField(max_length=30)
+    driver_license = models.CharField(max_length=10)
+    attorney_list_number = models.CharField(max_length=5)
+    attorney_list_from = models.DateField()
+    attorney_name = models.CharField(max_length=25)
+    date_of_payment = models.DateField()
+    date_of_loading = models.DateField()
+    term_reservation = models.DateField()
 
 

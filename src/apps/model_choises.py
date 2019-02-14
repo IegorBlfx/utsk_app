@@ -119,3 +119,26 @@ CURRENCY = (
     (USD, 'USD'),
     (EUR, 'EUR')
 )
+
+#########################################################################################
+SAT = 1
+DELIVERY = 2
+CAR = 3
+
+TRANSPORT_TYPE = (
+    (SAT, ' Sat'),
+    (DELIVERY, 'Delivery'),
+    (CAR, 'Car')
+)
+
+MERSEDES = 1
+ZIL = 2
+MAZ = 3
+GAZEL = 4
+
+TRANSPORT_MARK = (
+    (MERSEDES, 'Mers'),
+    (ZIL, 'Zil'),
+    (MAZ, 'Maz'),
+    (GAZEL, 'Gazel')
+)

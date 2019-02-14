@@ -33,3 +33,8 @@ class DocumentAdmin(admin.ModelAdmin):
 @admin.register(Contract)
 class ContractAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(OtherData)
+class OtherDataAdmin(admin.ModelAdmin):
+    pass
